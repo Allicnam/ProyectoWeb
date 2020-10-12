@@ -1,0 +1,13 @@
+{
+    "id": "123456",
+    "title": "Cien Años de Soledad",
+    "description": "Mito por derecho propio Cien años de soledad cuenta la saga de la familia Buendía y su maldición, que castiga el matrimonio entre parientes dándoles hijos con cola de cerdo. Como un río desbordante, a lo largo de un siglo se entretejerán sus destinos por medio de sucesos maravillosos en el fantástico pueblo de Macondo, en una narración que es la cumbre indiscutible del realismo mágico y la literatura del boom. Alegoría universal, es también una visión de Latinoamérica y una parábola sobre la historia humana." ,
+    "features": ["Publicado en 1967", "Best-Seller", "Editorial Sudamericana"],
+    "price": 9.99,
+    "inStock": true,
+    "images": [
+        { "id": 2, "url": "book1.jpg" },
+        { "id": 3, "url": "book2.jpg" },
+        { "id": 1, "url": "book3.jpg" }
+    ]
+}
