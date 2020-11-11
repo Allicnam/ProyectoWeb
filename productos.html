@@ -54,7 +54,7 @@
     </div>
     <!-- Menu de paginas -->
     <!-- dMain Layout-->
-    <div class="container" style="height: auto;">
+    <div class="container" style="height: auto;" id="app">
 
       <!-- Div del Buscador-->
       <div class="row" style="padding-top: 40px;">
@@ -68,112 +68,21 @@
         </div>
       </div>
 
-      <!-- Row Superior de Productos-->
-      <div class="row text-center">
-        <div class="col-lg-3">
-          <div class="card" style="width: 17rem;">
-            <img src="1.jpg" style="width: 270px" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Producto 1</h5>
-              <p class="card-text">Descripción con especificaciones del producto 1.</p>
-              <a href="#" class="btn btn-warning d-flex">Agregar al Carrito</a>
-            </div>
-          </div>
-
-        </div>
-        <div class="col-lg-3">
-
-          <div class="card" style="width: 17rem;">
-            <img src="1.jpg" style="width: 270px" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Producto 2</h5>
-              <p class="card-text">Descripción con especificaciones del producto 2.</p>
-              <a href="#" class="btn btn-warning d-flex">Agregar al Carrito</a>
-            </div>
-          </div>
-        
-        </div>
-        <div class="col-lg-3">
-        
-          <div class="card" style="width: 17rem;">
-            <img src="1.jpg" style="width: 270px" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Producto 3</h5>
-              <p class="card-text">Descripción con especificaciones del producto 3.</p>
-              <a href="#" class="btn btn-warning d-flex""> Agregar al Carrito </a>
-            </div>
-          </div>
-        
-        </div>
-        <div class="col-lg-3">
-        
-          <div class="card" style="width: 17rem;">
-            <img src="1.jpg" style="width: 270px" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Producto 4</h5>
-              <p class="card-text">Descripción con especificaciones del producto 4.</p>
-              <a href="#" class="btn btn-warning d-flex">Agregar al Carrito</a>
-            </div>
-          </div>
-    
-        </div>
-
-      </div>
-
-      <!-- Div Inferior de Productos -->
       <div class="row">
-        <div class="col-lg-3">
+        <div class="col-sm-7 col-md-6 col-lg-4 col-xl-3 pb-2" style="margin-bottom:10px;" v-for="product in products">
           <div class="card" style="width: 17rem;">
-            <img src="1.jpg" style="width: 270px" alt="...">
+            <img :src="product.images[0].url" style="height: 300px;" alt="...">
             <div class="card-body">
-              <h5 class="card-title">Producto 5</h5>
-              <p class="card-text">Descripción con especificaciones del producto 5.</p>
+              <h5 class="card-title">{{product.title}}</h5>
+              <p style="height: 200px; overflow: scroll;" class="card-text">{{product.description}}</p>
               <a href="#" class="btn btn-warning d-flex">Agregar al Carrito</a>
             </div>
           </div>
-
         </div>
-        <div class="col-lg-3">
-
-          <div class="card" style="width: 17rem;">
-            <img src="1.jpg" style="width: 270px" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Producto 6</h5>
-              <p class="card-text">Descripción con especificaciones del producto 6.</p>
-              <a href="#" class="btn btn-warning d-flex">Agregar al Carrito</a>
-            </div>
-          </div>
-        
-        </div>
-        <div class="col-lg-3">
-        
-          <div class="card" style="width: 17rem;">
-            <img src="1.jpg" style="width: 270px" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Producto 7</h5>
-              <p class="card-text">Descripción con especificaciones del producto 7.</p>
-              <a href="#" class="btn btn-warning d-flex""> Agregar al Carrito </a>
-            </div>
-          </div>
-        
-        </div>
-        <div class="col-lg-3">
-        
-          <div class="card" style="width: 17rem;">
-            <img src="1.jpg" style="width: 270px" alt="...">
-            <div class="card-body">
-              <h5 class="card-title">Producto 8</h5>
-              <p class="card-text">Descripción con especificaciones del producto 8.</p>
-              <a href="#" class="btn btn-warning d-flex">Agregar al Carrito</a>
-            </div>
-          </div>
-    
-        </div>
-
       </div>
 
       <!-- Row para cambiar de pagina -->
-      <div class="row" style="padding-top: 40px;">
+      <!-- <div class="row" style="padding-top: 40px;">
         <div class="col-md-4"></div>
         <div class="col-md-4 text-center">
           
@@ -189,7 +98,7 @@
 
         </div>
         <div class="col-md-4"></div>
-      </div>
+      </div> -->
 
     </div>
     <!--Main Layout-->
@@ -198,5 +107,29 @@
       <div class="footer-copyright text-center py-3">Equipo 4: Adrian Mancilla A01196967, Andres Carlos Barrera Basilio A00815749, Mario Alberto Ortega A01730557, Daniel Treviño Quiroga A01283132, Ruben Alejandro Lopez Charles A00819291</div>
     </footer>
     <!-- Footer -->
+
+    <!-- Vue Library CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
+    
+    <!-- Axios Library CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <script>
+      const app = new Vue({
+        el: '#app',
+        data: {
+          products: []
+        },
+        beforeMount(){
+          axios.get('cart.json')
+            .then(response => {
+              this.products = response.data.products
+            })
+            .catch(error => {
+              console.log(error)
+            })
+        }
+      })
+    </script>
   </body>
 </html>
