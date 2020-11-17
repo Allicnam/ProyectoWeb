@@ -7,5 +7,5 @@ cost: Precio del libro (Double)
 Author: Autor (String)
 Year: Año inicial de publicacion (String)
 edition: Numero aleatorio que le puse (String)
-imgdata: Un largo string de datos que codifique en encode64 para tener imagenes, puede ser manejado por el img tag de html
+imgdata: Un largo string de datos que codifique en encode64 para tener imagenes, puede ser manejado por el img tag de html (Binary)
 
