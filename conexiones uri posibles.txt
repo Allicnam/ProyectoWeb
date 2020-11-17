@@ -1,0 +1,44 @@
+var MongoClient = require('mongodb').MongoClient;
+
+var uri = "mongodb://m001-student:webdatabase@proyectodesarrolloweb-shard-00-00.d30vh.mongodb.net:27017,proyectodesarrolloweb-shard-00-01.d30vh.mongodb.net:27017,proyectodesarrolloweb-shard-00-02.d30vh.mongodb.net:27017/ProyectoWebDB?ssl=true&replicaSet=atlas-ybvymb-shard-0&authSource=admin&retryWrites=true&w=majority";
+MongoClient.connect(uri, function(err, client) {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+NODE 2.2.12 or later
+
+
+
+
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://m001-student:webdatabase@proyectodesarrolloweb.d30vh.mongodb.net/ProyectoWebDB?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+NODE 3.0 or later
+
+
+
+const MongoClient = require('mongodb').MongoClient;
+const uri = "mongodb+srv://m001-student:webdatabase@proyectodesarrolloweb.d30vh.mongodb.net/ProyectoWebDB?retryWrites=true&w=majority";
+const client = new MongoClient(uri, { useNewUrlParser: true });
+client.connect(err => {
+  const collection = client.db("test").collection("devices");
+  // perform actions on the collection object
+  client.close();
+});
+
+NODE 3.6 or later
+
+
+
+password del atlas: webdatabase
+
+base de datos default
+dbname = ProyectoWebDB
