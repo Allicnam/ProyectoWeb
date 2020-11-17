@@ -1,0 +1,11 @@
+Los documentos estan estructurados asi (case sensitive!); los nombres del lado izquierdo son los campos:
+
+
+_id: Lo que identifica la entrada, aleatorio  (ObjectId)
+title: Nombre del libro    (String)
+cost: Precio del libro (Double)
+Author: Autor (String)
+Year: Año inicial de publicacion (String)
+edition: Numero aleatorio que le puse (String)
+imgdata: Un largo string de datos que codifique en encode64 para tener imagenes, puede ser manejado por el img tag de html
+
