@@ -1,0 +1,26 @@
+{
+  "name": "proyectoweb",
+  "version": "1.0.0",
+  "description": "",
+  "main": "connectiondb.js",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "mongodb": "^2.2.33",
+    "nodemon": "^2.0.6"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Allicnam/ProyectoWeb.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Allicnam/ProyectoWeb/issues"
+  },
+  "homepage": "https://github.com/Allicnam/ProyectoWeb#readme"
+}
