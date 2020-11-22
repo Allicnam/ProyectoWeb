@@ -15,8 +15,7 @@ const uri = "mongodb://m001-student:webdatabase@proyectodesarrolloweb-shard-00-0
 mongodb.MongoClient.connect(uri, (err, db) => {
 
   const collection = db.collection("libros"); //La coleccion se llama libros
-  console.log("Llego aqui debug 11");
-  
+  const users = db.collection("users"); //segunda colleccion  
 
   app.get("/main", (req, res) => {
     // search the database (collection) for all users with the `user` field being the `user` route paramter
@@ -32,89 +31,26 @@ mongodb.MongoClient.connect(uri, (err, db) => {
     });
   });
 
-/*
+  app.post("/register", (req, res) => {
 
-  app.get("/Frankenstein", (req, res) => {
-    // search the database (collection) for all users with the `user` field being the `user` route paramter
-    console.log("Llego aqui 1");
-    collection.find({title: "Frankenstein"}).toArray((err, docs) => {
-      if (err) {
-        // if an error happens
-        res.send("Error in GET req.");
-      } else {
-        // if all works
-        console.log("Llego aqui 2");
-        res.send(docs); // send back all users found with the matching username
-      }
+    console.log(req.body);
+    users.insert({
+      email : req.body.email,
+      password : req.body.password
     });
+    res.send("hola");
   });
 
-
-  app.get("/1823", (req, res) => {
-    // search the database (collection) for all users with the `user` field being the `user` route paramter
-    console.log("Llego aqui 3");
-    collection.find({Year: "1823"}).toArray((err, docs) => {
-      if (err) {
-        // if an error happens
-        res.send("Error in GET req.");
-      } else {
-        // if all works
-        console.log("Llego aqui 4");
-        res.send(docs); // send back all users found with the matching username
-      }
+  app.get("/login", (req, res) => {
+    console.log("backlogin");
+    console.log(req.query);
+    users.findOne({email: req.query.email, password: req.query.password }, (err, user) => {
+      if (err) throw(err); // handle error case
+        res.json(user);
     });
     
   });
 
-*/
- 
-/*
-
-  app.get("/findone", (req, res) => {
-    collection.findOne({}, function(err, result) {
-        if (err) throw err;
-        console.log(result.name);
-      });
-    collection.find({Year: "1823"}).toArray((err, docs) => {
-      if (err) {
-        // if an error happens
-        res.send("Error in GET req.");
-      } else {
-        // if all works
-        res.send(docs); // send back all users found with the matching username
-      }
-    });
-  });
-
-
-  // Responds to POST requests with the route parameter being the username.
-  // Creates a new user in the collection with the `user` parameter and the JSON sent with the req in the `body` property
-  // Example request: https://mynodeserver.com/myNEWusername
-  app.post("/:user", (req, res) => {
-    // inserts a new document in the database (collection)
-    collection.insertOne(
-      { ...req.body, user: req.params.user }, // this is one object to insert. `requst.params` gets the url req parameters
-      (err, r) => {
-        if (err) {
-          res.send("Error in POST req.");
-        } else {
-          res.send("Information inserted");
-        }
-      }
-    );
-  });    
-
-    // if someone goes to base route, send back they are home.
-    app.get("/", (req, res) => {
-      res.send("You are home 🏚.");
-    });
-
-
-
-
-  });
-
-    */
 
   // listen for requests
   var listener = app.listen(port, () => {
