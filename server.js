@@ -68,6 +68,36 @@ app.get("/main", (req, res) => {
 });
 
 
+// Cart Route: Access list of products
+app.get("/cart/user", async (req, res) => {
+  const cart = req.session.user.cart;
+  const products = [];
+  const promises = [];
+  // Para cada producto en el carrito obtener sus detalles y guardarlo en los datos de salida
+  cart.forEach(element => {
+    const o_id = new mongodb.ObjectID(element.product_id);
+    const promise = collection.findOne({ '_id': o_id })
+      .then(book => {
+        book.quantity = element.quantity; // Agregar propiedad quantity
+        book.imgdata = Buffer.from(book.imgdata.buffer).toString('base64'); // Convertir el Binary Buffer a String Base64
+        book.imgdata = book.imgdata.replace("dataimage/jpegbase64", ""); // Remover informacion adicional
+        products.push(book);
+      })
+      .catch(err => {
+        console.log(err);
+      })
+    promises.push(promise);
+  });
+
+  // Una vez todas las operaciones finalizan, regresar el array de productos
+  Promise.all(promises).then(() => {
+    res.json({
+      user: req.session.user.email,
+      products
+    });
+  });
+});
+
 // Cart Route: Add Product
 app.post("/cart/add", (req, res) => {
   const product_id = req.body.product_id;
@@ -99,7 +129,7 @@ app.post("/cart/add", (req, res) => {
         res.json({ message: 'Product successfully added' });
       });
   }
-})
+});
 
 // Cart Route: Remove Product
 app.post("/cart/remove", (req, res) => {
@@ -125,7 +155,19 @@ app.post("/cart/remove", (req, res) => {
       if(err) throw err;
       res.json({ message: 'Product successfully removed' });
     });
-  
+});
+
+// Cart Route: Remove All
+app.post("/cart/remove/all", (req, res) => {
+  // Resetear el carrito a un array vacío
+  req.session.user.cart = [];
+
+  // Guardar nuevamente el carrito en la DB
+  users.updateOne({ email: req.session.user.email },
+    { $set: { cart: req.session.user.cart} }, (err, result) => {
+      if(err) throw err;
+      res.json({ message: 'All products successfully removed' });
+    });
 })
 
 
@@ -153,7 +195,7 @@ app.post("/register", (req, res) => {
 
 // Login route
 app.get("/login", (req, res) => {
-  console.log("backlogin");
+  console.log("Login Credentials:");
   console.log(req.query);
 
   const userCredentials = { 
@@ -170,6 +212,8 @@ app.get("/login", (req, res) => {
         // If passwords match, send user information
         if(result) {
           // Save user information into the session
+          console.log("User found:");
+          console.log(user);
           req.session.user = user;
           res.json(user);
         }
