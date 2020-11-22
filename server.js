@@ -27,26 +27,116 @@ app.use(require("cors")()); // allow Cross-domain requests
 app.use(require("body-parser").json()); // automatically parses request data to JSON
 app.use(express.static(path.join(__dirname, 'public'))); // Server static files
 
+
+// Session Middleware Config
+const session = require('express-session');
+const MongoStore = require('connect-mongo')(session); // Permite guardar la información de las sesiones dentro de la DB
+
+app.use(session({
+  store: new MongoStore({
+    url: uri, // Utilizamos la misma conexion a la base de datos
+    autoRemove: 'native',
+    collection: 'sessions' //Las sesiones se almacenan en esta colección de la DB
+  }),
+  secret: 'keyboard cat',
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    maxAge: 1000 * 60 * 60 * 2 // La sesion dura 2 hrs antes de pedir nuevamente las credenciales
+  },
+  resave: false,
+  saveUninitialized: false
+}))
+
+
+// Ruta para la página Tienda
 app.get("/main", (req, res) => {
-  // search the database (collection) for all users with the `user` field being the `user` route paramter
-  
+  // Search the database for the list of books 
   collection.find().toArray((err, docs) => {
     if (err) {
-    // if an error happens
-    res.send("Error in GET req.");
+      // if an error happens
+      res.status(500).end();
     } else {
-    // if all works
-    res.send(docs); // send back all users found with the matching username
+      // if all works
+      responseData = {
+        products: docs,
+        user: req.session.user.email
+      }
+      res.send(responseData); // send back all products on the bookstore list
     }
   });
 });
 
+
+// Cart Route: Add Product
+app.post("/cart/add", (req, res) => {
+  const product_id = req.body.product_id;
+  const cart = req.session.user.cart;
+
+  // Verificar si el elemento ya existe dentro del carrito
+  let index = cart.findIndex((product) => { return product.product_id === product_id })
+  // Si ya existe, unicamente actualiza la cantidad
+  if(index !== -1) { 
+    req.session.user.cart[index].quantity++;
+    // Guardar nuevamente el carrito a la DB
+    users.updateOne({ email: req.session.user.email },
+      { $set: { cart: req.session.user.cart} }, (err, result) => {
+        if(err) throw err;
+        res.json({ message: 'Product successfully added' });
+      });
+  }
+  // Si aun no existe, es necesario agregarlo
+  else {
+    const product = {
+      product_id,
+      quantity: 1
+    }
+    req.session.user.cart.push(product);
+    // Guardar nuevamente el carrito a la DB
+    users.updateOne({ email: req.session.user.email },
+      { $set: { cart: req.session.user.cart} }, (err, result) => {
+        if(err) throw err;
+        res.json({ message: 'Product successfully added' });
+      });
+  }
+})
+
+// Cart Route: Remove Product
+app.post("/cart/remove", (req, res) => {
+  const product_id = req.body.product_id;
+  const user = req.session.user;
+
+  let index = user.cart.findIndex((product) => { return product.product_id === product_id });
+  // Verificar que se encuentre el artículo
+  if(index === -1){ 
+    res.json({ message: 'Product Not Found' }) 
+  }
+  // Si se encuentra en el carrito, disminuir su cantidad
+  user.cart[index].quantity--;
+  // Si ha disminuido a cero la cantidad, eliminar el articulo
+  if(user.cart[index].quantity === 0) {
+    user.cart.splice(index, 1);
+  }
+
+  // Guardar nuevamente el carrito tanto en la sesión como en la DB
+  req.session.user = user;
+  users.updateOne({ email: req.session.user.email },
+    { $set: { cart: req.session.user.cart} }, (err, result) => {
+      if(err) throw err;
+      res.json({ message: 'Product successfully removed' });
+    });
+  
+})
+
+
+// Register route
 app.post("/register", (req, res) => {
   console.log(req.body);
   // Parse the data from user
   const newUser = {
     email : req.body.email,
-    password : req.body.password
+    password : req.body.password,
+    cart: []
   }
 
   // Hash the plain text password
@@ -59,7 +149,9 @@ app.post("/register", (req, res) => {
   // TODO: Send a message indicating a successful registration 
   res.status(200).end();
 });
-  
+
+
+// Login route
 app.get("/login", (req, res) => {
   console.log("backlogin");
   console.log(req.query);
@@ -77,6 +169,8 @@ app.get("/login", (req, res) => {
         if(err) throw err;
         // If passwords match, send user information
         if(result) {
+          // Save user information into the session
+          req.session.user = user;
           res.json(user);
         }
         // If not, send HTTP Unauthorized status code 

@@ -14,103 +14,105 @@
 
   </head>
   <body style="padding-top: 65px;">
-    <!-- BookStore NavBar -->
-    <header>
-      <nav class="navbar fixed-top navbar-expand-lg navbar-light pink scrolling-navbar bg-info">
-        <a class="navbar-brand" href="#">
-          <img src="1.jpg" width="200" height="100" class="d-inline-block align-top" alt="" />
-        </a>
-        <h1>BookStore</h1>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse">
-          <div class="dropdown ml-auto">
-            <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Logged in as: Adrian Mancilla
-            </button>
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              <a class="dropdown-item" href="#">Sign Out</a>
+    <div id="app">
+      <!-- BookStore NavBar -->
+      <header>
+        <nav class="navbar fixed-top navbar-expand-lg navbar-light pink scrolling-navbar bg-info">
+          <a class="navbar-brand" href="#">
+            <img src="1.jpg" width="200" height="100" class="d-inline-block align-top" alt="" />
+          </a>
+          <h1>BookStore</h1>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse">
+            <div class="dropdown ml-auto">
+              <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                Logged in as: {{ user }}
+              </button>
+              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                <a class="dropdown-item" href="#">Sign Out</a>
+              </div>
             </div>
           </div>
-        </div>
-      </nav>
-    </header>
-    <!-- BookStore NavBar -->
-    <!-- Menu de paginas -->
-    <div class="d-flex flex-row p-2 bd-highlight" style="margin-top: 70px;">
-      <nav class="navbar navbar-expand-lg navbar-light pink scrolling-navbar bg-info w-100 justify-content-center">
-        <ul class="navbar-nav w-75">
-          <li class="nav-item active flex-fill text-center">
-            <a class="nav-link" href="paginaPrincipal.html">Pagina Principal<span class="sr-only">(current)</span></a>
-          </li>
-          <li class="nav-item flex-fill text-center">
-            <a class="nav-link" href="productos.html">Tienda</a>
-          </li>
-          <li class="nav-item flex-fill text-center">
-            <a class="nav-link" href="Carrito.html">Ver Carrito</a>
-          </li>
-          <li class="nav-item flex-fill text-center">
-            <a class="nav-link" href="#">Contactanos</a>
-          </li>
-        </ul>
-      </nav>
-    </div>
-    <!-- Menu de paginas -->
-    <!-- dMain Layout-->
-    <div class="container" style="height: auto;" id="app">
-
-      <!-- Div del Buscador-->
-      <div class="row" style="padding-top: 40px;">
-        <div class="col-md-6">
-          <div class="input-group mb-3">
-            <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2">
-            <div class="input-group-append">
-              <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
-            </div>
-          </div>
-        </div>
+        </nav>
+      </header>
+      <!-- BookStore NavBar -->
+      <!-- Menu de paginas -->
+      <div class="d-flex flex-row p-2 bd-highlight" style="margin-top: 70px;">
+        <nav class="navbar navbar-expand-lg navbar-light pink scrolling-navbar bg-info w-100 justify-content-center">
+          <ul class="navbar-nav w-75">
+            <li class="nav-item active flex-fill text-center">
+              <a class="nav-link" href="paginaPrincipal.html">Pagina Principal<span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item flex-fill text-center">
+              <a class="nav-link" href="productos.html">Tienda</a>
+            </li>
+            <li class="nav-item flex-fill text-center">
+              <a class="nav-link" href="Carrito.html">Ver Carrito</a>
+            </li>
+            <li class="nav-item flex-fill text-center">
+              <a class="nav-link" href="#">Contactanos</a>
+            </li>
+          </ul>
+        </nav>
       </div>
-
-      <div class="row">
-        <div class="col-sm-7 col-md-6 col-lg-4 col-xl-3 pb-2" style="margin-bottom:10px;" v-for="product in products">
-          <div class="card" style="width: 17rem;">
-            <!--<img :src="product.images[0].url" style="height: 300px;" alt="...">-->
-            <div class="card-body">
-              <h5 class="card-title">{{product.title}}</h5>
-              <p style="height: 200px; overflow: scroll;" class="card-text">{{product.cost}}</p>
-              <a href="#" class="btn btn-warning d-flex">Agregar al Carrito</a>
+      <!-- Menu de paginas -->
+      <!-- dMain Layout-->
+      <div class="container" style="height: auto;">
+  
+        <!-- Div del Buscador-->
+        <div class="row" style="padding-top: 40px;">
+          <div class="col-md-6">
+            <div class="input-group mb-3">
+              <input type="text" class="form-control" placeholder="" aria-label="Recipient's username" aria-describedby="button-addon2">
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="button-addon2">Buscar</button>
+              </div>
             </div>
           </div>
         </div>
-      </div>
-
-      <!-- Row para cambiar de pagina -->
-      <!-- <div class="row" style="padding-top: 40px;">
-        <div class="col-md-4"></div>
-        <div class="col-md-4 text-center">
-          
-          <nav aria-label="Page navigation example">
-            <ul class="pagination">
-              <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
-              <li class="page-item"><a class="page-link" href="#">1</a></li>
-              <li class="page-item"><a class="page-link" href="#">2</a></li>
-              <li class="page-item"><a class="page-link" href="#">3</a></li>
-              <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
-            </ul>
-          </nav>
-
+  
+        <div class="row">
+          <div class="col-sm-7 col-md-6 col-lg-4 col-xl-3 pb-2" style="margin-bottom:10px;" v-for="product in products" :key="product._id">
+            <div class="card" style="width: 17rem;">
+              <!--<img :src="product.images[0].url" style="height: 300px;" alt="...">-->
+              <div class="card-body">
+                <h5 class="card-title">{{product.title}}</h5>
+                <p style="height: 200px; overflow: scroll;" class="card-text">{{product.cost}}</p>
+                <button href="#" class="btn btn-warning d-flex" @click="addProduct(product._id)">Agregar al Carrito</button>
+              </div>
+            </div>
+          </div>
         </div>
-        <div class="col-md-4"></div>
-      </div> -->
-
+  
+        <!-- Row para cambiar de pagina -->
+        <!-- <div class="row" style="padding-top: 40px;">
+          <div class="col-md-4"></div>
+          <div class="col-md-4 text-center">
+            
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item"><a class="page-link" href="#">Anterior</a></li>
+                <li class="page-item"><a class="page-link" href="#">1</a></li>
+                <li class="page-item"><a class="page-link" href="#">2</a></li>
+                <li class="page-item"><a class="page-link" href="#">3</a></li>
+                <li class="page-item"><a class="page-link" href="#">Siguiente</a></li>
+              </ul>
+            </nav>
+  
+          </div>
+          <div class="col-md-4"></div>
+        </div> -->
+  
+      </div>
+      <!--Main Layout-->
+      <!-- Footer -->
+      <footer class="page-footer font-small bg-info">
+        <div class="footer-copyright text-center py-3">Equipo 4: Adrian Mancilla A01196967, Andres Carlos Barrera Basilio A00815749, Mario Alberto Ortega A01730557, Daniel Treviño Quiroga A01283132, Ruben Alejandro Lopez Charles A00819291</div>
+      </footer>
+      <!-- Footer -->
     </div>
-    <!--Main Layout-->
-    <!-- Footer -->
-    <footer class="page-footer font-small bg-info">
-      <div class="footer-copyright text-center py-3">Equipo 4: Adrian Mancilla A01196967, Andres Carlos Barrera Basilio A00815749, Mario Alberto Ortega A01730557, Daniel Treviño Quiroga A01283132, Ruben Alejandro Lopez Charles A00819291</div>
-    </footer>
-    <!-- Footer -->
 
     <!-- Vue Library CDN -->
     <script src="https://cdn.jsdelivr.net/npm/vue@2/dist/vue.js"></script>
@@ -122,13 +124,24 @@
       const app = new Vue({
         el: '#app',
         data: {
-          products: []
+          products: [],
+          user: ''
         },
-        beforeMount(){
-          axios.get('http://localhost:4567/main')
+        methods: {
+          addProduct(product_id) {
+            console.log(product_id);
+            axios.post('/cart/add', {product_id})
+              .then(response => {
+                console.log(response.data);
+              })
+          }
+        },
+        created(){
+          axios.get('/main')
             .then(response => {
               console.log(response.data);
-              this.products = response.data
+              this.products = response.data.products
+              this.user = response.data.user
             })
             .catch(error => {
               console.log(error)
