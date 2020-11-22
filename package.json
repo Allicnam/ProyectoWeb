@@ -4,15 +4,17 @@
   "description": "",
   "main": "connectiondb.js",
   "dependencies": {
+    "bcrypt": "^5.0.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "mongodb": "^2.2.33",
-    "nodemon": "^2.0.6",
     "vue-router": "^3.4.9"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "nodemon": "^2.0.6"
+  },
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "dev": "nodemon connectiondb"
   },
   "repository": {
     "type": "git",
