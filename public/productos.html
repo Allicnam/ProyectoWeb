@@ -27,12 +27,17 @@
           </button>
           <div class="collapse navbar-collapse">
             <div class="dropdown ml-auto">
-              <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Logged in as: {{ user }}
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Sign Out</a>
-              </div>
+              <a class="btn btn-outline-dark" href="/" v-if="!user">
+                Log In
+              </a>
+              <template v-else>
+                <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Logged in as: {{ user }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" href="#">Sign Out</a>
+                </div>
+              </template>
             </div>
           </div>
         </nav>
@@ -49,7 +54,7 @@
               <a class="nav-link" href="productos.html">Tienda</a>
             </li>
             <li class="nav-item flex-fill text-center">
-              <a class="nav-link" href="Carrito.html">Ver Carrito</a>
+              <a class="nav-link" href="/cart">Ver Carrito</a>
             </li>
             <li class="nav-item flex-fill text-center">
               <a class="nav-link" href="#">Contactanos</a>
@@ -125,11 +130,16 @@
         el: '#app',
         data: {
           products: [],
-          user: ''
+          user: false
         },
         methods: {
           addProduct(product_id) {
-            console.log(product_id);
+            // Verificar que el usuario esté loggeado antes de poder agregar productos
+            if(this.user === false) {
+              // Si no lo está, enviarlo a login
+              window.location.href = "/";
+            }
+            // De ser así, proceder con el request
             axios.post('/cart/add', {product_id})
               .then(response => {
                 console.log(response.data);

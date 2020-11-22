@@ -48,6 +48,16 @@ app.use(session({
   saveUninitialized: false
 }))
 
+// Middleware Guardian para rutas
+function ensureAuthenticated(req, res, next) {
+  // Si el usuario no ha iniciado sesion, redirigir a login
+  if(!req.session.user) {
+    res.redirect('/');
+  }
+  // Si ya ha iniciado sesion, proceder con el request
+  next();
+}
+
 
 // Ruta para la página Tienda
 app.get("/main", (req, res) => {
@@ -60,13 +70,17 @@ app.get("/main", (req, res) => {
       // if all works
       responseData = {
         products: docs,
-        user: req.session.user.email
+        user: (req.session.user) ? req.session.user.email : false
       }
       res.send(responseData); // send back all products on the bookstore list
     }
   });
 });
 
+// Cart Route: Serve page
+app.get('/cart', ensureAuthenticated, (req, res) => {
+  res.sendFile(path.join(__dirname, 'public', 'Carrito.html'));
+})
 
 // Cart Route: Access list of products
 app.get("/cart/user", async (req, res) => {
