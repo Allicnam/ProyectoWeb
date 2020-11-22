@@ -1,4 +1,5 @@
 // init project
+const path = require('path');
 const express = require("express"); 
 const app = express(); // instantiate express
 
@@ -24,7 +25,7 @@ mongodb.MongoClient.connect(uri, (err, db) => {
 // Express Middleware
 app.use(require("cors")()); // allow Cross-domain requests
 app.use(require("body-parser").json()); // automatically parses request data to JSON
-app.use(express.static(__dirname)); // Server static files
+app.use(express.static(path.join(__dirname, 'public'))); // Server static files
 
 app.get("/main", (req, res) => {
   // search the database (collection) for all users with the `user` field being the `user` route paramter
