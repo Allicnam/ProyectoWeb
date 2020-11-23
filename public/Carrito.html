@@ -98,7 +98,7 @@
                     <h3>Total:</h3>
                   </div>
                   <div class="col-lg-1 align-self-center">
-                    <h6> {{ total }} </h6>
+                    <h6 id="totalCost"> {{ total }} </h6>
                   </div>
                   <div class="col-lg-1 align-self-center">
                     <h6>MXN</h6>
@@ -141,12 +141,12 @@
     <script type="text/x-template" id="product-component-template">
       <div class="row">
         <div class="col-lg-8">
-          <div class="row">
+          <div  class="row">
             <div class="col-4">
               <img :src="base64data" width="150" height="200" alt="" />
             </div>
             <div class="col-8">
-              <h3 id="bookName">{{ title }}</h3>
+              <h3  id="bookName" >{{ title }}</h3>
               <p>{{ author }}</p>
               <p>{{ description }}</p>
             </div>
@@ -164,7 +164,7 @@
           <h5 style="padding-left: 10px;">Precio</h5>
           <div class="row" style="padding-top: 30px;">
             <div class="col-6 text-center">
-              <h6 id="totalCost">{{ cost }}</h6>
+              <h6>{{ cost }}</h6>
             </div>
             <div class="col-6">
               <h6>MXN</h6>
