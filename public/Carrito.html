@@ -11,6 +11,10 @@
     <!-- Bootstrap -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <!-- EmailJS -->
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js'></script>
+    <!-- Comprar - Email -->
+    <script src="./script/comprar.js" type="module"></script>
   </head>
   <body style="padding-top: 65px;">
     <div id="app">
@@ -28,7 +32,7 @@
           <div class="collapse navbar-collapse">
             <div class="dropdown ml-auto">
               <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Logged in as: {{ user }}
+                Logged in as: <font id="userName"> {{ user }} </font>
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                 <a class="dropdown-item" href="#">Sign Out</a>
@@ -112,7 +116,7 @@
                     </button>
                   </div>
                   <div class="col-lg-2">
-                    <button class="btn btn-success" onclick="location.href='index.html'" type="button">
+                    <button class="btn btn-success" id="btnSubmit"  type="button">
                       Comprar
                     </button>
                   </div>
@@ -142,7 +146,7 @@
               <img :src="base64data" width="150" height="200" alt="" />
             </div>
             <div class="col-8">
-              <h3>{{ title }}</h3>
+              <h3 id="bookName">{{ title }}</h3>
               <p>{{ author }}</p>
               <p>{{ description }}</p>
             </div>
@@ -160,7 +164,7 @@
           <h5 style="padding-left: 10px;">Precio</h5>
           <div class="row" style="padding-top: 30px;">
             <div class="col-6 text-center">
-              <h6>{{ cost }}</h6>
+              <h6 id="totalCost">{{ cost }}</h6>
             </div>
             <div class="col-6">
               <h6>MXN</h6>
