@@ -6,7 +6,7 @@ function sendEmail(){
 
     let name = document.getElementById("userName").textContent;
     let books = document.getElementById("bookName").textContent;
-    let cost = document.getElementById("totalCost");
+    let cost = document.getElementById("totalCost").textContent;
 
 
     emailjs.send("gmail","template_r0db7sg",{
