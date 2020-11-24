@@ -35,7 +35,7 @@
                   Logged in as: {{ user }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Sign Out</a>
+                  <a class="dropdown-item" v-on:click="logout">Sign Out</a>
                 </div>
               </template>
             </div>
@@ -144,6 +144,11 @@
               .then(response => {
                 console.log(response.data);
               })
+          },
+          logout() {
+            axios.get('/logout').then(res => {
+              window.location.href = "/";
+            })
           }
         },
         created(){
