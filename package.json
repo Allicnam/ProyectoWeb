@@ -15,6 +15,7 @@
     "nodemon": "^2.0.6"
   },
   "scripts": {
+    "start": "node server",
     "dev": "nodemon server"
   },
   "repository": {
@@ -25,6 +26,9 @@
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/Allicnam/ProyectoWeb/issues"
+  },
+  "engines": {
+    "node": "14.x"
   },
   "homepage": "https://github.com/Allicnam/ProyectoWeb#readme"
 }
