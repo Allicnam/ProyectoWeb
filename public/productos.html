@@ -19,9 +19,9 @@
       <header>
         <nav class="navbar fixed-top navbar-expand-lg navbar-light pink scrolling-navbar bg-info">
           <a class="navbar-brand" href="#">
-            <img src="1.jpg" width="200" height="100" class="d-inline-block align-top" alt="" />
+            <img src="logo_bookstore.png"  height="100" class="d-inline-block align-top" alt="" />
           </a>
-          <h1>BookStore</h1>
+          
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
@@ -35,7 +35,7 @@
                   Logged in as: {{ user }}
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                  <a class="dropdown-item" href="#">Sign Out</a>
+                  <a class="dropdown-item" v-on:click="logout">Sign Out</a>
                 </div>
               </template>
             </div>
@@ -47,10 +47,10 @@
       <div class="d-flex flex-row p-2 bd-highlight" style="margin-top: 70px;">
         <nav class="navbar navbar-expand-lg navbar-light pink scrolling-navbar bg-info w-100 justify-content-center">
           <ul class="navbar-nav w-75">
-            <li class="nav-item active flex-fill text-center">
+            <li class="nav-item flex-fill text-center">
               <a class="nav-link" href="paginaPrincipal.html">Pagina Principal<span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item flex-fill text-center">
+            <li class="nav-item active flex-fill text-center">
               <a class="nav-link" href="productos.html">Tienda</a>
             </li>
             <li class="nav-item flex-fill text-center">
@@ -81,10 +81,10 @@
         <div class="row">
           <div class="col-sm-7 col-md-6 col-lg-4 col-xl-3 pb-2" style="margin-bottom:10px;" v-for="product in products" :key="product._id">
             <div class="card" style="width: 17rem;">
-              <!--<img :src="product.images[0].url" style="height: 300px;" alt="...">-->
+              <img :src="product.imgdata" style="height: 300px;" alt="..." />
               <div class="card-body">
                 <h5 class="card-title">{{product.title}}</h5>
-                <p style="height: 200px; overflow: scroll;" class="card-text">{{product.cost}}</p>
+                <p class="card-text">{{product.cost}}</p>
                 <button href="#" class="btn btn-warning d-flex" @click="addProduct(product._id)">Agregar al Carrito</button>
               </div>
             </div>
@@ -144,13 +144,18 @@
               .then(response => {
                 console.log(response.data);
               })
+          },
+          logout() {
+            axios.get('/logout').then(res => {
+              window.location.href = "/";
+            })
           }
         },
         created(){
           axios.get('/main')
             .then(response => {
               console.log(response.data);
-              this.products = response.data.products
+              this.products = response.data.products.map(product => {return {...product, imgdata: product.imgdata.replace("dataimage/jpegbase64", "data:image/jpeg;base64,")}})
               this.user = response.data.user
             })
             .catch(error => {

@@ -14,7 +14,7 @@
     <!-- dMain Layout-->
 
     <div class="bg-info text-center" style="height: 10vh; padding-top: 20px;">
-      <h1>BookStore</h1>
+      <img class="img-fluid" src="logo_bookstore.png">
     </div>
 
     <div id="app" class="bg-info" style="height: 90vh; display: flex; justify-content: center; flex-direction: column;">
@@ -28,11 +28,11 @@
           <a v-if="login" href="/">Forgot password?</a>
           <input v-if="!login" style="margin-top: 20px;" type="password" placeholder="confirm password" v-model="txtInput3" />
           <br />
-          <button type="button" v-on:click="registerOrLogin()" style="margin-top: 20px;">Submit</button>
+          <button class="btn text-white" type="button" v-on:click="registerOrLogin()" style="margin-top: 20px; background-color:#17a2b8">Submit</button>
         </form>
       </div>
       <div class="text-center" style="padding-top: 20px;">
-        <button v-on:click="login = !login">{{login ? 'Don´t have an account? Sign up' : 'Already have an account? Log in'}}</button>
+        <button class="btn btn-light" v-on:click="login = !login">{{login ? 'Don´t have an account? Sign up' : 'Already have an account? Log in'}}</button>
       </div>
     </div>
     <script src="https://npmcdn.com/vue/dist/vue.js"></script>

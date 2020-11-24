@@ -239,6 +239,13 @@ app.get("/login", (req, res) => {
   });
 });
 
+// Logout route
+app.get("/logout", (req, res) => {
+  console.log("Logout");
+  req.session.user = null;
+  res.status(200).end();
+});
+
 
 // listen for requests
 app.listen(PORT, () => {

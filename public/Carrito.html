@@ -11,6 +11,10 @@
     <!-- Bootstrap -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous" />
+    <!-- EmailJS -->
+    <script type='text/javascript' src='https://cdn.jsdelivr.net/npm/emailjs-com@2/dist/email.min.js'></script>
+    <!-- Comprar - Email -->
+    <script src="comprar.js" type="module"></script>
   </head>
   <body style="padding-top: 65px;">
     <div id="app">
@@ -19,19 +23,19 @@
       <header>
         <nav class="navbar fixed-top navbar-expand-lg navbar-light pink scrolling-navbar bg-info">
           <a class="navbar-brand" href="#">
-            <img src="1.jpg" width="200" height="100" class="d-inline-block align-top" alt="" />
+            <img src="logo_bookstore.png"  height="100" class="d-inline-block align-top" alt="" />
           </a>
-          <h1>BookStore</h1>
+          
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
           <div class="collapse navbar-collapse">
             <div class="dropdown ml-auto">
               <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Logged in as: {{ user }}
+                Logged in as: <font id="userName"> {{ user }} </font>
               </button>
               <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Sign Out</a>
+                <a class="dropdown-item" v-on:click="logout">Sign Out</a>
               </div>
             </div>
           </div>
@@ -42,13 +46,13 @@
       <div class="d-flex flex-row p-2 bd-highlight" style="margin-top: 70px;">
         <nav class="navbar navbar-expand-lg navbar-light pink scrolling-navbar bg-info w-100 justify-content-center">
           <ul class="navbar-nav w-75">
-            <li class="nav-item active flex-fill text-center">
+            <li class="nav-item flex-fill text-center">
               <a class="nav-link" href="paginaPrincipal.html">Pagina Principal <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item flex-fill text-center">
               <a class="nav-link" href="productos.html">Tienda</a>
             </li>
-            <li class="nav-item flex-fill text-center">
+            <li class="nav-item active flex-fill text-center">
               <a class="nav-link" href="/cart">Ver Carrito</a>
             </li>
             <li class="nav-item flex-fill text-center">
@@ -94,7 +98,7 @@
                     <h3>Total:</h3>
                   </div>
                   <div class="col-lg-1 align-self-center">
-                    <h6> {{ total }} </h6>
+                    <h6 id="totalCost"> {{ total }} </h6>
                   </div>
                   <div class="col-lg-1 align-self-center">
                     <h6>MXN</h6>
@@ -112,7 +116,7 @@
                     </button>
                   </div>
                   <div class="col-lg-2">
-                    <button class="btn btn-success" onclick="location.href='index.html'" type="button">
+                    <button class="btn btn-success" id="btnSubmit"  type="button">
                       Comprar
                     </button>
                   </div>
@@ -137,12 +141,12 @@
     <script type="text/x-template" id="product-component-template">
       <div class="row">
         <div class="col-lg-8">
-          <div class="row">
+          <div  class="row">
             <div class="col-4">
               <img :src="base64data" width="150" height="200" alt="" />
             </div>
             <div class="col-8">
-              <h3>{{ title }}</h3>
+              <h3  class="bookName" >{{ title }}</h3>
               <p>{{ author }}</p>
               <p>{{ description }}</p>
             </div>
@@ -264,6 +268,11 @@
                 .catch(error => {
                   console.log(error);
                 })
+          },
+          logout() {
+            axios.get('/logout').then(res => {
+              window.location.href = "/";
+            })
           }
         },
         computed: {
