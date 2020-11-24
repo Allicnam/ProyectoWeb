@@ -9,8 +9,7 @@
     "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-session": "^1.17.1",
-    "mongodb": "^2.2.33",
-    "vue-router": "^3.4.9"
+    "mongodb": "^2.2.33"
   },
   "devDependencies": {
     "nodemon": "^2.0.6"
