@@ -61,7 +61,7 @@
               }
 
               axios
-                .post("http://localhost:4567/register", {
+                .post("/register", {
                   email: this.txtInput,
                   password: this.txtInput2,
                 })
@@ -77,7 +77,7 @@
                 return;
               }
               axios
-                .get("http://localhost:4567/login", {
+                .get("/login", {
                   params: {
                     email: this.txtInput,
                     password: this.txtInput2,
