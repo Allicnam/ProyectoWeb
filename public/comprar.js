@@ -5,9 +5,8 @@ function sendEmail(){
 
 
     let name = document.getElementById("userName").textContent;
-    let books = document.getElementById("bookName").textContent;
+    let books = Array.from(document.getElementsByClassName("bookName")).map(e => e.textContent).join(", ");
     let cost = document.getElementById("totalCost").textContent;
-
 
     emailjs.send("gmail","template_r0db7sg",{
     from_name: name,
