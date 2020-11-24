@@ -55,7 +55,9 @@ function ensureAuthenticated(req, res, next) {
     res.redirect('/');
   }
   // Si ya ha iniciado sesion, proceder con el request
-  next();
+  else {
+    next();
+  }
 }
 
 
