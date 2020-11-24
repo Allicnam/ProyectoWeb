@@ -3,7 +3,7 @@ const path = require('path');
 const express = require("express"); 
 const app = express(); // instantiate express
 
-const PORT = 4567; // port to listen on
+const PORT = process.env.PORT || 4567; // port to listen on
 
 // Password hashing
 const bcrypt = require("bcrypt");
