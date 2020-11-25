@@ -28,19 +28,19 @@
           </button>
         </div>
         <!-- Mostrar Mensaje de Registro Exitoso -->
-        <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="registered">
+        <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="showRegistered">
           <strong>Welcome!</strong> You can log in now
           <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="resetSuccessMessage">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <form>
-          <input style="margin-bottom: 20px;" type="text" placeholder="username" v-model="txtInput" />
+          <input style="margin-bottom: 20px;" type="text" placeholder="username" v-model="username" />
           <br />
-          <input type="password" placeholder="password" v-model="txtInput2" />
+          <input type="password" placeholder="password" v-model="password" />
           <br />
           <a v-if="login" href="/">Forgot password?</a>
-          <input v-if="!login" style="margin-top: 20px;" type="password" placeholder="confirm password" v-model="txtInput3" />
+          <input v-if="!login" style="margin-top: 20px;" type="password" placeholder="confirm password" v-model="confirmPassword" />
           <br />
           <button class="btn text-white" type="button" v-on:click="registerOrLogin()" style="margin-top: 20px; background-color:#17a2b8">Submit</button>
         </form>
