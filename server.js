@@ -189,7 +189,6 @@ app.post("/cart/remove/all", (req, res) => {
 
 // Register route
 app.post("/register", (req, res) => {
-  console.log(req.body);
   // Parse the data from user
   const newUser = {
     email : req.body.email,
@@ -197,15 +196,25 @@ app.post("/register", (req, res) => {
     cart: []
   }
 
-  // Hash the plain text password
-  bcrypt.hash(newUser.password, 10, (err, hash) => {
+  // Verificar que el usuario no exista dentro de la DB
+  users.findOne({ email: newUser.email }, (err, user) => {
     if(err) throw err;
-    newUser.password = hash;
-    users.insert(newUser);
+    // Si el usuario ya existe, regresar codigo de error
+    if(user) {
+      res.status(400).json({ message: "User Already Exists" });
+    }
+    // Sino, agregarlo a la DB
+    else {
+      // Hash the plain text password
+      bcrypt.hash(newUser.password, 10, (err, hash) => {
+        if(err) throw err;
+        newUser.password = hash;
+        // Insertar el usuario con su contraseña segura
+        users.insert(newUser);
+        res.status(200).end();
+      });
+    }
   });
-
-  // TODO: Send a message indicating a successful registration 
-  res.status(200).end();
 });
 
 
