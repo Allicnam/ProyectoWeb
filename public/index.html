@@ -18,8 +18,22 @@
     </div>
 
     <div id="app" class="bg-info" style="height: 90vh; display: flex; justify-content: center; flex-direction: column;">
-      <div class="text-center" style="align-self: center; background-color: white; width: 300px; height: 320px; border-radius: 5%; display: flex; flex-direction: column; justify-content: center;">
+      <div class="text-center" style="align-self: center; background-color: white; width: 350px; height: 370px; border-radius: 5%; display: flex; flex-direction: column; justify-content: center;">
         <h2 style="padding-bottom: 20px;">{{login ? 'Login' : 'Sign Up'}}</h2>
+        <!-- Mostrar Errores de Validacion -->
+        <div class="alert alert-danger alert-dismissible fade show" role="alert" v-if="error">
+          <strong>Error:</strong> {{ error }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="resetError">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <!-- Mostrar Mensaje de Registro Exitoso -->
+        <div class="alert alert-success alert-dismissible fade show" role="alert" v-if="registered">
+          <strong>Welcome!</strong> You can log in now
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close" @click="resetSuccessMessage">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
         <form>
           <input style="margin-bottom: 20px;" type="text" placeholder="username" v-model="txtInput" />
           <br />
@@ -42,56 +56,67 @@
       var app = new Vue({
         el: "#app",
         data: {
+          showRegistered: false,
           login: false,
-          txtInput: "",
-          txtInput2: "",
-          txtInput3: "",
+          username: "",
+          password: "",
+          confirmPassword: "",
+          // Almacenar errores de validacion/autenticacion
+          error: "",
         },
         methods: {
+          resetError() {
+            this.error = "";
+          },
+          resetSuccessMessage() {
+            this.showRegistered = "";
+          },
           registerOrLogin() {
+            // Pantalla de Registro
             if (!this.login) {
-              if (this.txtInput == "" || this.txtInput2 == "" || this.txtInput3 == "") {
-                alert("Favor de llenar todos los campos.");
+              if (this.username == "" || this.password == "" || this.confirmPassword == "") {
+                this.error = "Please, complete all the fields";
                 return;
               }
 
-              if (this.txtInput2 != this.txtInput3) {
-                alert("Las contraseñas no coinciden.");
+              if (this.password != this.confirmPassword) {
+                this.error = "Passwords do not match";
                 return;
               }
 
               axios
                 .post("/register", {
-                  email: this.txtInput,
-                  password: this.txtInput2,
+                  email: this.username,
+                  password: this.password,
                 })
                 .then((response) => {
-                  window.location.href = "paginaPrincipal.html";
+                  this.registered = true;
+                  this.login = true;
                 })
                 .catch((error) => {
-                  console.log(error);
+                  // Recibir el mensaje de error
+                  this.error = error.response.data.message;
                 });
-            } else {
+            } 
+            // Pantalla de Login
+            else {
               if (this.txtInput == "" || this.txtInput2 == "") {
-                alert("Favor de llenar todos los campos.");
+                this.error = "Please, complete all the fields";
                 return;
               }
               axios
                 .get("/login", {
                   params: {
-                    email: this.txtInput,
-                    password: this.txtInput2,
+                    email: this.username,
+                    password: this.password,
                   },
                 })
                 .then((response) => {
-                  if (!response.data) {
-                    alert("Usuario no encontrado.");
-                  } else {
-                    window.location.href = "paginaPrincipal.html";
-                  }
+                  window.location.href = "paginaPrincipal.html";
                 })
                 .catch((error) => {
-                  console.log(error);
+                  // Recibir el mensaje de error
+                  this.error = error.response.data.message;
                 });
             }
           },

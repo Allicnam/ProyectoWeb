@@ -237,13 +237,13 @@ app.get("/login", (req, res) => {
         }
         // If not, send HTTP Unauthorized status code 
         else {
-          res.status(401).end();
+          res.status(401).json({ message: "Incorrect Password" });
         }
       }) 
     }
     // If not, send HTTP Unauthorized status code 
     else {
-      res.status(401).end();
+      res.status(401).json({ message: "User Not Found" });
     }
   });
 });
