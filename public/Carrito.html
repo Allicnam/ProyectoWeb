@@ -32,12 +32,17 @@
 
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="dropdown ml-auto">
-              <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                Logged in as: <font id="userName"> {{ user }} </font>
-              </button>
-              <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" v-on:click="logout">Sign Out</a>
-              </div>
+              <a class="btn btn-outline-dark" href="/" v-if="!user">
+                Log In
+              </a>
+              <template v-else>
+                <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                  Logged in as: {{ user }}
+                </button>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                  <a class="dropdown-item" v-on:click="logout">Sign Out</a>
+                </div>
+              </template>
             </div>
           </div>
         </nav>
