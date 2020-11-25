@@ -221,7 +221,9 @@ app.get("/login", (req, res) => {
 
   users.findOne({ email: userCredentials.email }, (err, user) => {
     if (err) throw(err); // handle error case
-
+    
+    // If user exists, proceed to compare passwords
+    if(user){
       // Compare the stored password (already hashed) with the submitted one
       bcrypt.compare(userCredentials.password, user.password, (err, result) => {
         if(err) throw err;
@@ -238,6 +240,11 @@ app.get("/login", (req, res) => {
           res.status(401).end();
         }
       }) 
+    }
+    // If not, send HTTP Unauthorized status code 
+    else {
+      res.status(401).end();
+    }
   });
 });
 
