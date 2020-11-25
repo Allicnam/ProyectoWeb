@@ -25,7 +25,7 @@
           <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
           </button>
-          
+
           <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <div class="dropdown ml-auto">
               <a class="btn btn-outline-dark" href="/" v-if="!user">
@@ -101,7 +101,29 @@
             </div>
           </div>
         </div>
-  
+        
+        <!-- Modal para retroalimentacion del usuario al agregar un producto al carrito -->
+        <div class="modal fade" id="myModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Producto añadido al carrito!</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+              <div class="modal-body">
+                El producto {{ addedProduct.title }} ya está en tu carrito!
+              </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                <a href="/cart" class="btn btn-primary">Ir al carrito</a>
+              </div>
+            </div>
+          </div>
+        </div>
+
+
         <!-- Row para cambiar de pagina -->
         <!-- <div class="row" style="padding-top: 40px;">
           <div class="col-md-4"></div>
@@ -142,6 +164,7 @@
         data: {
           products: [],
           displayedProducts: [],
+          addedProduct: { title: '' },
           searchQuery: '',
           user: false,
           isLoading: false
@@ -154,6 +177,14 @@
             })
           },
           addProduct(product_id) {
+            // Agregar info del producto seleccionado al modal
+            this.addedProduct = this.products.find(book => {
+              return book._id === product_id;
+            });
+
+            // Invocar el modal
+            $('#myModal').modal('show')
+
             // Verificar que el usuario esté loggeado antes de poder agregar productos
             if(this.user === false) {
               // Si no lo está, enviarlo a login
