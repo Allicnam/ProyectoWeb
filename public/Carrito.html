@@ -64,6 +64,9 @@
             <li class="nav-item flex-fill text-center">
               <a class="nav-link" href="contactanos.html">Contactanos</a>
             </li>
+            <li class="nav-item flex-fill text-center"v-if="admin">
+              <a class="nav-link" href="admin-page.html" v-if="admin" >Administrador</a>
+            </li>
           </ul>
         </nav>
       </div>
@@ -296,13 +299,16 @@
           // cart.json is a mock JSON file with a list of products
           axios.get('/cart/user')
             .then(response => {
-              this.products = response.data.products
-              this.user = response.data.user
-              this.isLoading = false
+              this.products = response.data.products;
+              this.user = response.data.user;
+              this.admin = response.data.admin;
+              this.isLoading = false;
             })
             .catch(error => {
               console.log(error)
             })
+
+            
         }
       })
     </script>
