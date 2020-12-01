@@ -24,9 +24,8 @@ mongodb.MongoClient.connect(uri, (err, db) => {
 
 // Express Middleware
 app.use(require("cors")()); // allow Cross-domain requests
-app.use(require("body-parser").json()); // automatically parses request data to JSON
+app.use(require("body-parser").json({limit: '50mb'})); // automatically parses request data to JSON
 app.use(express.static(path.join(__dirname, 'public'))); // Server static files
-
 
 // Session Middleware Config
 const session = require('express-session');
@@ -267,6 +266,15 @@ app.get("/logout", (req, res) => {
   });
   res.clearCookie('connect.sid').status(200).end();
   console.log("Session terminated");
+});
+
+// Add Book
+app.post("/addBook", (req, res) => {
+  // Parse the data from user
+
+  collection.insert(req.body.newBook);
+  res.status(200).end();
+
 });
 
 

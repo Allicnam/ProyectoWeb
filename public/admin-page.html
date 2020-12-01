@@ -62,24 +62,6 @@
         </ul>
       </nav>
     </div>
-    <!-- Menu de paginas -->
-    <!-- dMain Layout-->
-   <!-- <div id="carouselExampleControls" class="carousel slide" data-ride="carousel" style="background-color: currentColor;">
-       <div class="carousel-inner">
-        <div v-for="(product, index) in products" :class="{ 'carousel-item active': index === 0, 'carousel-item': index !== 0 }" sty>
-          <img class="d-block" style="height: 60vh; margin: auto;" :src="product.imgdata" :alt="product.title">
-        </div> 
-      </div> 
-
-      <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
-        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-        <span class="sr-only">Previous</span>
-      </a>
-      <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
-        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-        <span class="sr-only">Next</span>
-      </a>
-    </div> -->
     <div class="container container-fluid">
         <h2 class="text-center">Vista de Administrador - Dar de alta un libro</h2>
         <div class="row">
@@ -88,21 +70,27 @@
                 <h5>Introduce los datos del libro a dar de alta:</h5>
                 <form>
                     <label for="titulo">Titulo del libro:</label>
-                    <textarea class="form-control" id="titulo" rows="1"></textarea><br>
+                    <textarea class="form-control" id="titulo" rows="1" v-model="newBook.title"></textarea><br>
                     
                     <label for="autor">Autor:</label>
-                    <textarea class="form-control" id="autor" rows="1"></textarea><br>
+                    <textarea class="form-control" id="autor" rows="1" v-model="newBook.author"></textarea><br>
                     
                     <label for="descripcion">Descripción:</label>
-                    <textarea class="form-control" id="descripcion" rows="1"></textarea><br>
+                    <textarea class="form-control" id="descripcion" rows="1" v-model="newBook.descripcion"></textarea><br>
+
+                    <label for="edition">Edición:</label>
+                    <input type="number" class="form-control" id="edition" rows="1" v-model="newBook.edition"><br>
+
+                    <label for="year">Año:</label>
+                    <input type="number" class="form-control" id="year" rows="1" v-model="newBook.year"><br>
 
                     <label for="costo">Costo:</label>
-                    <input type="number" class="form-control" id="costo" name="costo" min="1"><br>
+                    <input type="number" class="form-control" id="costo" name="costo" min="1" v-model="newBook.cost"><br>
 
                     <label for="portada">Imagen de portada</label>
-                    <input type="file" class="form-control-file" id="portada">
+                    <input type="file" class="form-control-file" id="portada" v-on:change="encodeImageFileAsURL">
                     <br><br>
-                    <button type="submit" class="btn btn-primary ">Submit</button>
+                    <button type="button" v-on:click="addBook()" class="btn btn-primary ">Submit</button>
                 </form>
             </div>
         </div>
@@ -127,6 +115,7 @@
       const app = new Vue({
         el: '#app',
         data: {
+          newBook: {}, 
           products: [],
           user: false,
           isLoading: false
@@ -136,6 +125,30 @@
             axios.get('/logout').then(res => {
               window.location.href = "/";
             })
+          },
+          addBook() {
+            console.log(this.newBook)
+            axios
+                .post("/addBook", {
+                  newBook: this.newBook
+                })
+                .then((response) => {
+                  this.newBook = {};
+                  document.getElementById("portada").value = "";
+                  alert("Libro agregado!");
+                })
+                .catch((error) => {
+                  // Recibir el mensaje de error
+                  alert(error.response.data.message);
+                });
+          },
+          encodeImageFileAsURL(e) {
+            var file = e.target.files[0];
+            var reader = new FileReader();
+            reader.onloadend = () => {
+              this.newBook.imgdata = reader.result;
+            }
+            reader.readAsDataURL(file);
           }
         },
         created(){
