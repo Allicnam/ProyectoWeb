@@ -72,7 +72,8 @@ app.get("/main", (req, res) => {
       // if all works
       responseData = {
         products: docs,
-        user: (req.session.user) ? req.session.user.email : false
+        user: (req.session.user) ? req.session.user.email : false,
+        admin: req.session.user.isAdmin
       }
       res.send(responseData); // send back all products on the bookstore list
     }
@@ -225,7 +226,8 @@ app.get("/login", (req, res) => {
 
   const userCredentials = { 
     email: req.query.email, 
-    password: req.query.password 
+    password: req.query.password,
+    isAdmin: req.query.isAdmin 
   }
 
   users.findOne({ email: userCredentials.email }, (err, user) => {
