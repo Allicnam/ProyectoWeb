@@ -15,7 +15,6 @@ function sendEmail(){
     });
 
     alert("Orden realizada!");
-
 }
 
 var btnSubmit = document.getElementById("btnSubmit");

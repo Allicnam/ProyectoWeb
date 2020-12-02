@@ -37,7 +37,7 @@
               </a>
               <template v-else>
                 <button class="btn btn-outline-dark" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                  Logged in as: {{ user }}
+                  Logged in as: <font id="userName">{{ user }}</font>
                 </button>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
                   <a class="dropdown-item" v-on:click="logout">Sign Out</a>
